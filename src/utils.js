@@ -1,11 +1,24 @@
 import fs from 'fs'
 import path from 'path'
+import yaml from 'js-yaml'
 
-const readFile = (filePath) => {
+const readFile = (filePath, callback) => {
   const absolutePath = path.resolve(process.cwd(), filePath)
   const content = fs.readFileSync(absolutePath, 'utf-8')
-  const data = JSON.parse(content)
+  const extension = path.extname(filePath)
+  const parser = callback(extension)
+  const data = parser(content)
   return data
+}
+
+const getParser = (extension) => {
+  if (extension === '.yml' || extension === '.yaml') {
+    return yaml.load
+  }
+  if (extension === '.json') {
+    return JSON.parse
+  }
+  throw new Error(`Unsupported format: ${extension}`)
 }
 
 const buildDiff = (file1, file2) => {
@@ -58,4 +71,4 @@ const diffEntryToString = (diffEntries) => {
   return `{\n${lines}\n}`
 }
 
-export { buildDiff, readFile, diffEntryToString }
+export { buildDiff, readFile, diffEntryToString, getParser }
