@@ -37,22 +37,25 @@ const buildDiff = (file1, file2) => {
   })
 }
 
-const diffEntryToString = diffEntries =>
-  diffEntries
+const diffEntryToString = (diffEntries) => {
+  const lines = diffEntries
     .map((diffEntry) => {
       if (diffEntry.type === 'added') {
-        return `+ ${diffEntry.key}: ${diffEntry.value}`
+        return `  + ${diffEntry.key}: ${diffEntry.value}`
       }
       if (diffEntry.type === 'removed') {
-        return `- ${diffEntry.key}: ${diffEntry.value}`
+        return `  - ${diffEntry.key}: ${diffEntry.value}`
       }
       if (diffEntry.type === 'unchanged') {
-        return `  ${diffEntry.key}: ${diffEntry.value}`
+        return `    ${diffEntry.key}: ${diffEntry.value}`
       }
       if (diffEntry.type === 'changed') {
-        return `- ${diffEntry.key}: ${diffEntry.oldValue}\n+ ${diffEntry.key}: ${diffEntry.newValue}`
+        return `  - ${diffEntry.key}: ${diffEntry.oldValue}\n  + ${diffEntry.key}: ${diffEntry.newValue}`
       }
     })
     .join('\n')
+
+  return `{\n${lines}\n}`
+}
 
 export { buildDiff, readFile, diffEntryToString }
