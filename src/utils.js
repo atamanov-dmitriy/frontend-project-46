@@ -22,6 +22,8 @@ const getParser = (extension) => {
 }
 
 const buildDiff = (file1, file2) => {
+  const checkIsObject = value => value !== null && typeof value === 'object' && !Array.isArray(value)
+
   const keys = new Set([...Object.keys(file1), ...Object.keys(file2)])
   const sortedKeys = Array.from(keys).sort()
 
@@ -37,6 +39,10 @@ const buildDiff = (file1, file2) => {
       return { key, type: 'removed', value: value1 }
     }
 
+    if (checkIsObject(value1) && checkIsObject(value2)) {
+      return { key, type: 'nested', children: buildDiff(value1, value2) }
+    }
+
     if (value1 === value2) {
       return { key, type: 'unchanged', value: value1 }
     }
@@ -50,25 +56,4 @@ const buildDiff = (file1, file2) => {
   })
 }
 
-const diffEntryToString = (diffEntries) => {
-  const lines = diffEntries
-    .map((diffEntry) => {
-      if (diffEntry.type === 'added') {
-        return `  + ${diffEntry.key}: ${diffEntry.value}`
-      }
-      if (diffEntry.type === 'removed') {
-        return `  - ${diffEntry.key}: ${diffEntry.value}`
-      }
-      if (diffEntry.type === 'unchanged') {
-        return `    ${diffEntry.key}: ${diffEntry.value}`
-      }
-      if (diffEntry.type === 'changed') {
-        return `  - ${diffEntry.key}: ${diffEntry.oldValue}\n  + ${diffEntry.key}: ${diffEntry.newValue}`
-      }
-    })
-    .join('\n')
-
-  return `{\n${lines}\n}`
-}
-
-export { buildDiff, readFile, diffEntryToString, getParser }
+export { buildDiff, readFile, getParser }
