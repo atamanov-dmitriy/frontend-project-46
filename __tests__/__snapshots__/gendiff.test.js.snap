@@ -1,6 +1,5 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
-
-exports[`gendiff compares flat json file 1`] = `
+exports[`gendiff compares nested file (stylish) 1`] = `
 "{
     common: {
       + follow: false
@@ -47,7 +46,7 @@ exports[`gendiff compares flat json file 1`] = `
 }"
 `;
 
-exports[`gendiff compares flat yaml file 1`] = `
+exports[`gendiff compares nested file (stylish) 2`] = `
 "{
     common: {
       + follow: false
@@ -92,4 +91,32 @@ exports[`gendiff compares flat yaml file 1`] = `
         fee: 100500
     }
 }"
+`;
+
+exports[`gendiff compares nested file (plain) 1`] = `
+"Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]"
+`;
+
+exports[`gendiff compares nested file (plain) 2`] = `
+"Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]"
 `;

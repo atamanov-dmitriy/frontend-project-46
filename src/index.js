@@ -1,12 +1,12 @@
 import format from './formatters/index.js'
 import { buildDiff, readFile, getParser } from './utils.js'
 
-const genDiff = (filePath1, filePath2) => {
+const genDiff = (filePath1, filePath2, formatName = 'stylish') => {
   const entry1 = readFile(filePath1, getParser)
   const entry2 = readFile(filePath2, getParser)
   const diffEntry = buildDiff(entry1, entry2)
 
-  return format(diffEntry)
+  return format(diffEntry, formatName)
 }
 
 export default genDiff
