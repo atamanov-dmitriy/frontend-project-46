@@ -1,12 +1,17 @@
-import plain from './plain.js'
-import stylish from './stylish.js'
+import formatPlain from './plain.js'
+import formatStylish from './stylish.js'
+import formatJson from './json.js'
 
 const format = (tree, formatName) => {
   if (formatName === 'plain') {
-    return plain(tree)
+    return formatPlain(tree)
   }
 
-  return stylish(tree)
+  if (formatName === 'json') {
+    return formatJson(tree)
+  }
+
+  return formatStylish(tree)
 }
 
 export default format

@@ -1,5 +1,7 @@
+import { checkIsObject } from '../helpers.js'
+
 const formatValue = (value) => {
-  if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+  if (checkIsObject(value)) {
     return '[complex value]'
   }
 
@@ -10,14 +12,14 @@ const formatValue = (value) => {
   return String(value)
 }
 
-const plain = (diffEntries, path = '') => {
+const formatPlain = (diffEntries, path = '') => {
   const lines = []
 
   for (const diffEntry of diffEntries) {
     const property = path ? `${path}.${diffEntry.key}` : diffEntry.key
 
     if (diffEntry.type === 'nested') {
-      lines.push(plain(diffEntry.children, property))
+      lines.push(formatPlain(diffEntry.children, property))
       continue
     }
 
@@ -44,4 +46,4 @@ const plain = (diffEntries, path = '') => {
   return lines.join('\n')
 }
 
-export default plain
+export default formatPlain

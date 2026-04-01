@@ -1,29 +1,6 @@
-import fs from 'fs'
-import path from 'path'
-import yaml from 'js-yaml'
-
-const readFile = (filePath, callback) => {
-  const absolutePath = path.resolve(process.cwd(), filePath)
-  const content = fs.readFileSync(absolutePath, 'utf-8')
-  const extension = path.extname(filePath)
-  const parser = callback(extension)
-  const data = parser(content)
-  return data
-}
-
-const getParser = (extension) => {
-  if (extension === '.yml' || extension === '.yaml') {
-    return yaml.load
-  }
-  if (extension === '.json') {
-    return JSON.parse
-  }
-  throw new Error(`Unsupported format: ${extension}`)
-}
+import { checkIsObject } from './helpers.js'
 
 const buildDiff = (file1, file2) => {
-  const checkIsObject = value => value !== null && typeof value === 'object' && !Array.isArray(value)
-
   const keys = new Set([...Object.keys(file1), ...Object.keys(file2)])
   const sortedKeys = Array.from(keys).sort()
 
@@ -56,4 +33,4 @@ const buildDiff = (file1, file2) => {
   })
 }
 
-export { buildDiff, readFile, getParser }
+export { buildDiff }
