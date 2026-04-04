@@ -3,15 +3,16 @@ import formatStylish from './stylish.js'
 import formatJson from './json.js'
 
 const format = (tree, formatName) => {
-  if (formatName === 'plain') {
-    return formatPlain(tree)
+  switch (formatName) {
+    case 'plain':
+      return formatPlain(tree)
+    case 'json':
+      return formatJson(tree)
+    case 'stylish':
+      return formatStylish(tree)
+    default:
+      throw new Error(`Unknown format: ${formatName}`)
   }
-
-  if (formatName === 'json') {
-    return formatJson(tree)
-  }
-
-  return formatStylish(tree)
 }
 
 export default format

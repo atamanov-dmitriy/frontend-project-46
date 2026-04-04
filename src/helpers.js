@@ -12,13 +12,15 @@ const readFile = (filePath, callback) => {
 }
 
 const getParser = (extension) => {
-  if (extension === '.yml' || extension === '.yaml') {
-    return yaml.load
+  switch (extension) {
+    case '.yml':
+    case '.yaml':
+      return yaml.load
+    case '.json':
+      return JSON.parse
+    default:
+      throw new Error(`Unsupported format: ${extension}`)
   }
-  if (extension === '.json') {
-    return JSON.parse
-  }
-  throw new Error(`Unsupported format: ${extension}`)
 }
 
 const checkIsObject = value => value !== null && typeof value === 'object' && !Array.isArray(value)
